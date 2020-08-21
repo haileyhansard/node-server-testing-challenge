@@ -1,8 +1,12 @@
 const request = require('supertest');
 const server = require('./server');
-const { expectCt } = require('helmet');
+const db = require("../data/dbConfig.js");
 
 describe('server', () => {
+    beforeEach(async () => {
+        await db('quotes').truncate();
+    });
+    
     describe('GET /', () => {
         it('should return 200 OK', () => {
             request(server).get('/')
